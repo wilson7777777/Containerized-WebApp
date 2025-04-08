@@ -1,0 +1,4 @@
+CREATE TABLE items (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255)
+);

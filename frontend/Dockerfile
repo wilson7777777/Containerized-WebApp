@@ -1,0 +1,8 @@
+FROM node:14-alpine
+WORKDIR /app
+COPY package*.json /app/
+RUN npm install
+COPY . /app
+RUN npm --loglevel verbose run build  # Modified line
+EXPOSE 3000
+CMD ["npm", "start"]

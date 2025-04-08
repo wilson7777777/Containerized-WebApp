@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    build: ./database
+    environment:
+      POSTGRES_PASSWORD: postgres
+  redis:
+    image: redis:alpine
+  api:
+    build: ./api
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: postgres
+      REDIS_HOST: redis
+  frontend:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+      - frontend
